@@ -10,7 +10,7 @@ export class RegexPatterns {
     this.patterns = {
       cruceCalles: /\s+y\s+/gi,
       calleAltura: {},
-      calle: {}
+      calle: {},
     };
 
     for (let i = 1; i <= maxPalabras; i++) {
@@ -44,4 +44,4 @@ export class RegexPatterns {
   public getCallePattern(i: number): RegExp {
     return this.patterns.calle[i];
   }
-} 
+}

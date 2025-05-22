@@ -53,21 +53,16 @@ export default defineConfig([
         tsconfig: './tsconfig.json',
         sourceMap: true,
         declaration: true,
-        declarationDir: 'dist/types'
+        declarationDir: 'dist/types',
       }),
-      terser()
+      terser(),
     ],
-    external: [
-      '@usig-gcba/usig-core',
-      '@usig-gcba/callejero',
-      'urijs',
-      'node-fetch'
-    ]
+    external: ['@usig-gcba/usig-core', '@usig-gcba/callejero', 'urijs', 'node-fetch'],
   },
   {
     input: 'dist/types/index.d.ts',
     output: [{ file: 'dist/index.d.ts', format: 'esm' }],
     plugins: [dts()],
-    external: [/\.d\.ts$/]
-  }
+    external: [/\.d\.ts$/],
+  },
 ]);

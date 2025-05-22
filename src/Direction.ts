@@ -44,7 +44,7 @@ const fromWkt = (wkt: string): Coordenadas | undefined => {
 
   return {
     x: parseFloat(match[1]),
-    y: parseFloat(match[2])
+    y: parseFloat(match[2]),
   };
 };
 
@@ -73,7 +73,7 @@ export class Direccion {
         altura,
         tipoDireccion: TIPOS_DIRECCION.CALLE_ALTURA,
         tipo: TIPOS_OBJETO.DIRECCION,
-        nombre: ''
+        nombre: '',
       } as DireccionCalleAltura;
     } else if (calle2OAltura.tipo === TIPOS_OBJETO.CALLE) {
       direccion = {
@@ -81,7 +81,7 @@ export class Direccion {
         calleCruce: calle2OAltura,
         tipoDireccion: TIPOS_DIRECCION.CALLE_Y_CALLE,
         tipo: TIPOS_OBJETO.DIRECCION,
-        nombre: ''
+        nombre: '',
       } as DireccionCalleYCalle;
     } else {
       throw new Error('El segundo parámetro debe ser una altura o una calle');
@@ -144,7 +144,7 @@ export class Direccion {
         partido: obj.nombre_partido,
         localidad: obj.nombre_localidad,
         tipo: TIPOS_OBJETO.CALLE,
-        alturas: []
+        alturas: [],
       };
 
       if (obj.cod_calle2 || obj.cod_calle_cruce) {
@@ -154,7 +154,7 @@ export class Direccion {
           partido: obj.nombre_partido,
           localidad: obj.nombre_localidad,
           tipo: TIPOS_OBJETO.CALLE,
-          alturas: []
+          alturas: [],
         };
         direccion = this.construirDireccion(calle, calleCruce);
       } else {
@@ -171,9 +171,8 @@ export class Direccion {
     }
 
     if (obj.coordenadas !== undefined && obj.coordenadas !== null) {
-      direccion.coordenadas = typeof obj.coordenadas === 'string'
-        ? fromWkt(obj.coordenadas)
-        : obj.coordenadas;
+      direccion.coordenadas =
+        typeof obj.coordenadas === 'string' ? fromWkt(obj.coordenadas) : obj.coordenadas;
     }
 
     return direccion;

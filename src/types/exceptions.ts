@@ -1,6 +1,6 @@
 import type { Calle } from '../types';
 
-export type TipoExcepcion = 
+export type TipoExcepcion =
   | 'EXCEPCION_CALLE_INVALIDA'
   | 'EXCEPCION_CARGA_CALLEJERO'
   | 'EXCEPCION_ALTURA_INVALIDA'
@@ -50,4 +50,4 @@ export interface CruceInexistenteException extends BaseException {
   getCalle2(): string;
   getMatchingsCalle1(): Calle[];
   getMatchingsCalle2(): Calle[];
-} 
+}

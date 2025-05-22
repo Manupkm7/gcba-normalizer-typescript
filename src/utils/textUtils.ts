@@ -1,8 +1,18 @@
 export class TextUtils {
   public static sinAcentos(str: string): string {
     const acentos: Record<string, string> = {
-      'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ü': 'U',
-      'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ü': 'u'
+      Á: 'A',
+      É: 'E',
+      Í: 'I',
+      Ó: 'O',
+      Ú: 'U',
+      Ü: 'U',
+      á: 'a',
+      é: 'e',
+      í: 'i',
+      ó: 'o',
+      ú: 'u',
+      ü: 'u',
     };
 
     return str.replace(/[ÁÉÍÓÚÜáéíóúü]/g, letra => acentos[letra] || letra);
@@ -10,11 +20,7 @@ export class TextUtils {
 
   public static esPermutacion(str1: string, str2: string): boolean {
     const prepararStr = (str: string): string[] => {
-      return TextUtils.sinAcentos(str)
-        .replace(/"/g, '')
-        .toUpperCase()
-        .trim()
-        .split(' ');
+      return TextUtils.sinAcentos(str).replace(/"/g, '').toUpperCase().trim().split(' ');
     };
 
     const palabras1 = prepararStr(str1);
@@ -43,4 +49,4 @@ export class TextUtils {
     }
     return false;
   }
-} 
+}

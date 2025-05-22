@@ -6,7 +6,7 @@ import type {
   CalleSinAlturasException,
   CruceInexistenteException,
   ErrorResponse,
-  TipoExcepcion
+  TipoExcepcion,
 } from './types/exceptions';
 
 /**
@@ -36,10 +36,7 @@ abstract class BaseExceptionClass implements Error {
  */
 export class ErrorCalleInexistente extends BaseExceptionClass implements CalleInexistenteException {
   constructor(private readonly nombreCalle: string) {
-    super(
-      TIPOS_EXCEPCION.CALLE_INVALIDA,
-      `Calle inexistente: ${nombreCalle}`
-    );
+    super(TIPOS_EXCEPCION.CALLE_INVALIDA, `Calle inexistente: ${nombreCalle}`);
   }
 
   getNombreCalle(): string {
@@ -49,7 +46,7 @@ export class ErrorCalleInexistente extends BaseExceptionClass implements CalleIn
   getError(): ErrorResponse {
     return {
       type: 'CALLE_INEXISTENTE',
-      message: MENSAJES_ERROR.CALLE_INEXISTENTE
+      message: MENSAJES_ERROR.CALLE_INEXISTENTE,
     };
   }
 }
@@ -59,16 +56,13 @@ export class ErrorCalleInexistente extends BaseExceptionClass implements CalleIn
  */
 export class ErrorEnCargaDelCallejero extends BaseExceptionClass {
   constructor() {
-    super(
-      TIPOS_EXCEPCION.CARGA_CALLEJERO,
-      'Callejero no disponible.'
-    );
+    super(TIPOS_EXCEPCION.CARGA_CALLEJERO, 'Callejero no disponible.');
   }
 
   getError(): ErrorResponse {
     return {
       type: 'CALLES_SIN_CARGAR',
-      message: MENSAJES_ERROR.CALLES_SIN_CARGAR
+      message: MENSAJES_ERROR.CALLES_SIN_CARGAR,
     };
   }
 }
@@ -76,16 +70,16 @@ export class ErrorEnCargaDelCallejero extends BaseExceptionClass {
 /**
  * Excepción lanzada cuando una calle no existe a una altura específica
  */
-export class ErrorCalleInexistenteAEsaAltura extends BaseExceptionClass implements CalleInexistenteAEsaAlturaException {
+export class ErrorCalleInexistenteAEsaAltura
+  extends BaseExceptionClass
+  implements CalleInexistenteAEsaAlturaException
+{
   constructor(
     private readonly calle: string,
     private readonly matchings: Calle[],
     private readonly altura: number
   ) {
-    super(
-      TIPOS_EXCEPCION.ALTURA_INVALIDA,
-      `La calle ${calle} no existe a la altura ${altura}`
-    );
+    super(TIPOS_EXCEPCION.ALTURA_INVALIDA, `La calle ${calle} no existe a la altura ${altura}`);
   }
 
   getCalle(): string {
@@ -101,18 +95,18 @@ export class ErrorCalleInexistenteAEsaAltura extends BaseExceptionClass implemen
   }
 
   getError(): ErrorResponse {
-    const errorMatchings = this.matchings.flatMap(calle => 
+    const errorMatchings = this.matchings.flatMap(calle =>
       calle.alturas.map(tramo => ({
         calle: calle.nombre,
         inicio: tramo.inicio,
-        fin: tramo.fin
+        fin: tramo.fin,
       }))
     );
 
     return {
       type: 'ALTURA_INVALIDA',
       message: MENSAJES_ERROR.ALTURA_INVALIDA,
-      matchings: errorMatchings
+      matchings: errorMatchings,
     };
   }
 }
@@ -136,7 +130,7 @@ export class ErrorCalleSinAlturas extends BaseExceptionClass implements CalleSin
     return {
       type: 'CALLE_SIN_ALTURAS',
       streetName: this.nombreCalle,
-      message: this.message
+      message: this.message,
     };
   }
 }
@@ -151,10 +145,7 @@ export class ErrorCruceInexistente extends BaseExceptionClass implements CruceIn
     private readonly calle2: string,
     private readonly matchingsCalle2: Calle[]
   ) {
-    super(
-      TIPOS_EXCEPCION.CRUCE_INEXISTENTE,
-      `Cruce inexistente: ${calle1} y ${calle2}`
-    );
+    super(TIPOS_EXCEPCION.CRUCE_INEXISTENTE, `Cruce inexistente: ${calle1} y ${calle2}`);
   }
 
   getCalle1(): string {
@@ -178,7 +169,7 @@ export class ErrorCruceInexistente extends BaseExceptionClass implements CruceIn
       type: 'CRUCE_INEXISTENTE',
       message: MENSAJES_ERROR.CRUCE_INEXISTENTE,
       matchings1: this.matchingsCalle1,
-      matchings2: this.matchingsCalle2
+      matchings2: this.matchingsCalle2,
     };
   }
 }

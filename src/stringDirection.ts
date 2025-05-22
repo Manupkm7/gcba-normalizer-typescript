@@ -1,5 +1,5 @@
-import { CALLE, CALLE_ALTURA, CALLE_Y_CALLE, INVALIDO } from "./constant";
-import core from "@usig-gcba/usig-core";
+import { CALLE, CALLE_ALTURA, CALLE_Y_CALLE, INVALIDO } from './constant';
+import core from '@usig-gcba/usig-core';
 
 /**
  * @class StringDireccion
@@ -39,30 +39,27 @@ export default class StringDireccion {
      * @property
      * @type Integer Presunta altura de la calle
      */
-    this.strAltura = "";
+    this.strAltura = '';
     //	this.strInput = strInput.replace(/"/g, "").replace(/\./g, " ").replace(/,/g, " ").replace(/\)/g, " ").replace(/\(/g, " ").toUpperCase().trim();
     this.strInput = strInput
-      .replace(/"/g, "")
-      .replace(/[\.,\(\)']/g, " ")
+      .replace(/"/g, '')
+      .replace(/[\.,\(\)']/g, ' ')
       .toUpperCase()
       .trim();
     this.esAlturaSN = (alt: any) => /[sS][/\\][nN]/.test(alt);
     this.aceptarCallesSinAlturas = aceptarCallesSinAlturas;
 
     if (this.strInput.length > 0) {
-      let palabras = this.strInput.split(" Y ");
+      let palabras = this.strInput.split(' Y ');
       if (palabras.length >= 2) {
         let str = this.fixCallesConY(this.strInput);
-        palabras = str.split(" Y ");
+        palabras = str.split(' Y ');
         if (palabras.length >= 2) {
           this.tipo = CALLE_Y_CALLE;
-          this.strCalles = [
-            palabras[0].replace(" & ", " Y "),
-            palabras[1].replace(" & ", " Y "),
-          ];
+          this.strCalles = [palabras[0].replace(' & ', ' Y '), palabras[1].replace(' & ', ' Y ')];
         }
       }
-      palabras = this.strInput.split(" E ");
+      palabras = this.strInput.split(' E ');
       if (palabras.length >= 2) {
         // Si la ultima palabra no es un entero...
         if (
@@ -82,31 +79,29 @@ export default class StringDireccion {
   }
 
   esTipoAltura(str: string, aceptarCallesSinAlturas: boolean) {
-    return (
-      core.isDigit(str) ||
-      (aceptarCallesSinAlturas && this.esAlturaSN(str))
-    );
+    return core.isDigit(str) || (aceptarCallesSinAlturas && this.esAlturaSN(str));
   }
 
   setearCalleAltura() {
-    function inject(array: string[], acc: number, it: (acc: number, w: string, i: number) => number) {
+    function inject(
+      array: string[],
+      acc: number,
+      it: (acc: number, w: string, i: number) => number
+    ) {
       for (let i = 0; i < array.length; i++) acc = it(acc, array[i], i);
       return acc;
     }
-    let palabras = this.strInput.split(" ");
+    let palabras = this.strInput.split(' ');
     this.maxWordLen = inject(palabras, 0, function (acc, w) {
       return Math.max(w.trim().length, acc);
     });
     let cantPalabras = palabras.length;
     if (
       cantPalabras > 1 &&
-      this.esTipoAltura(
-        palabras[cantPalabras - 1],
-        this.aceptarCallesSinAlturas
-      )
+      this.esTipoAltura(palabras[cantPalabras - 1], this.aceptarCallesSinAlturas)
     ) {
       this.tipo = CALLE_ALTURA;
-      this.strCalles = [palabras.slice(0, -1).join(" ")];
+      this.strCalles = [palabras.slice(0, -1).join(' ')];
       this.strAltura = palabras[cantPalabras - 1];
     } else {
       this.tipo = CALLE;
@@ -118,34 +113,34 @@ export default class StringDireccion {
     return core.translate(
       str,
       [
-        "GELLY Y OBES",
-        "MENENDEZ Y PELAYO",
-        "OLAGUER Y FELIU",
-        "ORTEGA Y GASSET",
-        "PAULA Y RODRIGUEZ",
-        "PAZ Y FIGUEROA",
-        "PI Y MARGALL",
-        "RAMON Y CAJAL",
-        "TORRES Y TENORIO",
-        "TREINTA Y TRES",
+        'GELLY Y OBES',
+        'MENENDEZ Y PELAYO',
+        'OLAGUER Y FELIU',
+        'ORTEGA Y GASSET',
+        'PAULA Y RODRIGUEZ',
+        'PAZ Y FIGUEROA',
+        'PI Y MARGALL',
+        'RAMON Y CAJAL',
+        'TORRES Y TENORIO',
+        'TREINTA Y TRES',
       ],
       [
-        "GELLY & OBES",
-        "MENENDEZ & PELAYO",
-        "OLAGUER & FELIU",
-        "ORTEGA & GASSET",
-        "PAULA & RODRIGUEZ",
-        "PAZ & FIGUEROA",
-        "PI & MARGALL",
-        "RAMON & CAJAL",
-        "TORRES & TENORIO",
-        "TREINTA & TRES",
+        'GELLY & OBES',
+        'MENENDEZ & PELAYO',
+        'OLAGUER & FELIU',
+        'ORTEGA & GASSET',
+        'PAULA & RODRIGUEZ',
+        'PAZ & FIGUEROA',
+        'PI & MARGALL',
+        'RAMON & CAJAL',
+        'TORRES & TENORIO',
+        'TREINTA & TRES',
       ]
     );
   }
 
   quitarAvsCalle() {
-    let avs = ["AV", "AVDA", "AVENIDA"];
+    let avs = ['AV', 'AVDA', 'AVENIDA'];
     if (this.tipo === CALLE_ALTURA) {
       this.strCalles = core.removeWords(this.strCalles, avs);
     } else if (this.tipo === CALLE_Y_CALLE) {
@@ -154,14 +149,14 @@ export default class StringDireccion {
   }
 
   quitarAvsCalleCruce() {
-    let avs = ["AV", "AVDA", "AVENIDA"];
+    let avs = ['AV', 'AVDA', 'AVENIDA'];
     if (this.tipo === CALLE_Y_CALLE) {
       this.strCalles[1] = core.removeWords(this.strCalles[1], avs);
     }
   }
 
   quitarPasajes() {
-    let avs = ["PJE", "PSJE", "PASAJE"];
+    let avs = ['PJE', 'PSJE', 'PASAJE'];
     if (this.tipo === CALLE_ALTURA) {
       this.strCalles = core.removeWords(this.strCalles, avs);
     } else if (this.tipo === CALLE_Y_CALLE) {
